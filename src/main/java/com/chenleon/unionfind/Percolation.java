@@ -1,13 +1,12 @@
 package com.chenleon.unionfind;
 
-import edu.princeton.cs.algs4.QuickFindUF;
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
     private boolean[][] sites;
-    private int[] ids;
     private int N;
-    private QuickFindUF uf, auxUf;
+    private WeightedQuickUnionUF uf, auxUf;
     private int openSitesCount;
 
     public Percolation(int n) {
@@ -15,19 +14,19 @@ public class Percolation {
 
         N = n;
         sites = new boolean[N][N];
-        ids = new int[N * N];
 
         for (int i = 0; i < N; i++)
-            for (int j = 0; j < N; j++) {
+            for (int j = 0; j < N; j++)
                 sites[i][j] = false;
-                ids[i * N + j] = i * N + j;
-            }
 
-        uf = new QuickFindUF(N * N+1);
-        auxUf = new QuickFindUF(N * N + 2);
+        uf = new WeightedQuickUnionUF(N * N + 1);
+        auxUf = new WeightedQuickUnionUF(N * N + 2);
     }
 
     public void open(int row, int col) {
+        validate(row);
+        validate(col);
+
         row -= 1;
         col -= 1;
 
@@ -62,10 +61,14 @@ public class Percolation {
     }
 
     public boolean isOpen(int row, int col) {
+        validate(row);
+        validate(col);
         return sites[row - 1][col - 1];
     }
 
     public boolean isFull(int row, int col) {
+        validate(row);
+        validate(col);
         return uf.connected(N * N, (row - 1) * N + col - 1);
     }
 
@@ -75,6 +78,10 @@ public class Percolation {
 
     public boolean percolates() {
         return auxUf.connected(N * N, N * N + 1);
+    }
+
+    private void validate(int i) {
+        if (!(i >= 1 && i <= N)) throw new IllegalArgumentException("Invalid params");
     }
 
     public static void main(String[] args) {
@@ -88,6 +95,6 @@ public class Percolation {
 
         StdOut.printf("%d open sites\n", percolation.numberOfOpenSites());
         StdOut.printf("percolates: %s\n", percolation.percolates() ? "yes" : "no");
-        StdOut.printf("is 3,1 full: %s\n", percolation.isFull(3, 1));
+        StdOut.printf("is (3,1) full: %s\n", percolation.isFull(3, 1));
     }
 }
