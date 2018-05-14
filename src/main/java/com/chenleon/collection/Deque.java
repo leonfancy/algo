@@ -5,7 +5,7 @@ import edu.princeton.cs.algs4.StdOut;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class Deque<T> implements Iterable<T> {
+public class Deque<Item> implements Iterable<Item> {
     private Node head = null;
     private Node tail = null;
     private int size = 0;
@@ -18,7 +18,7 @@ public class Deque<T> implements Iterable<T> {
         return size;
     }
 
-    public void addFirst(T item) {
+    public void addFirst(Item item) {
         assertNotNullItem(item);
 
         Node oldHead = head;
@@ -30,7 +30,7 @@ public class Deque<T> implements Iterable<T> {
         size++;
     }
 
-    public void addLast(T item) {
+    public void addLast(Item item) {
         assertNotNullItem(item);
 
         Node oldTail = tail;
@@ -43,10 +43,10 @@ public class Deque<T> implements Iterable<T> {
         size++;
     }
 
-    public T removeFirst() {
+    public Item removeFirst() {
         assertNotEmptyDeque();
 
-        T item = head.item;
+        Item item = head.item;
         head = head.next;
 
         if (head == null) tail = null;
@@ -56,10 +56,10 @@ public class Deque<T> implements Iterable<T> {
         return item;
     }
 
-    public T removeLast() {
+    public Item removeLast() {
         assertNotEmptyDeque();
 
-        T item = tail.item;
+        Item item = tail.item;
         tail = tail.prev;
 
         if (tail == null) head = null;
@@ -69,7 +69,7 @@ public class Deque<T> implements Iterable<T> {
         return item;
     }
 
-    private void assertNotNullItem(T item) {
+    private void assertNotNullItem(Item item) {
         if (item == null) throw new IllegalArgumentException("Item must not be null");
     }
 
@@ -78,8 +78,8 @@ public class Deque<T> implements Iterable<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return new Iterator<T>() {
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
             private Node current = head;
 
             @Override
@@ -88,10 +88,10 @@ public class Deque<T> implements Iterable<T> {
             }
 
             @Override
-            public T next() {
+            public Item next() {
                 assertNotEmptyDeque();
 
-                T item = current.item;
+                Item item = current.item;
                 current = current.next;
                 return item;
             }
@@ -104,7 +104,7 @@ public class Deque<T> implements Iterable<T> {
     }
 
     class Node {
-        T item;
+        Item item;
         Node next;
         Node prev;
     }

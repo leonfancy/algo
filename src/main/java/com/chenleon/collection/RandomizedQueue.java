@@ -6,12 +6,12 @@ import edu.princeton.cs.algs4.StdRandom;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class RandomizedQueue<T> implements Iterable<T> {
-    private T[] items;
+public class RandomizedQueue<Item> implements Iterable<Item> {
+    private Item[] items;
     private int size = 0;
 
     public RandomizedQueue() {
-        items = (T[]) new Object[1];
+        items = (Item[]) new Object[1];
     }
 
     public boolean isEmpty() {
@@ -22,16 +22,16 @@ public class RandomizedQueue<T> implements Iterable<T> {
         return size;
     }
 
-    public void enqueue(T item) {
+    public void enqueue(Item item) {
         if (item == null) throw new IllegalArgumentException("item must not be null");
         if (size == items.length) resize(2 * size);
         items[size++] = item;
     }
 
-    public T dequeue() {
+    public Item dequeue() {
         assertNoneEmpty(size);
         int index = StdRandom.uniform(size);
-        T item = items[index];
+        Item item = items[index];
         items[index] = items[--size]; // move the last item to target place
         items[size] = null;
         if (size > 0 && size == items.length / 4) resize(items.length / 2);
@@ -42,12 +42,12 @@ public class RandomizedQueue<T> implements Iterable<T> {
         if(size == 0) throw new NoSuchElementException();
     }
 
-    public T sample() {
+    public Item sample() {
         return items[StdRandom.uniform(size)];
     }
 
     private void resize(int capacity) {
-        T[] copy = (T[]) new Object[capacity];
+        Item[] copy = (Item[]) new Object[capacity];
 
         for (int i = 0; i < size; i++) {
             copy[i] = items[i];
@@ -57,16 +57,16 @@ public class RandomizedQueue<T> implements Iterable<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public Iterator<Item> iterator() {
         return new RandomIterator();
     }
 
-    class RandomIterator implements Iterator<T> {
-        private T[] randItems;
+    class RandomIterator implements Iterator<Item> {
+        private Item[] randItems;
         private int i = size;
 
         RandomIterator() {
-            randItems = (T[]) new Object[size];
+            randItems = (Item[]) new Object[size];
             for (int k = 0; k < size; k++) {
                 randItems[k] = items[k];
             }
@@ -79,7 +79,7 @@ public class RandomizedQueue<T> implements Iterable<T> {
         }
 
         @Override
-        public T next() {
+        public Item next() {
             assertNoneEmpty(i);
             return randItems[--i];
         }
