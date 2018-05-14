@@ -4,6 +4,7 @@ import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class RandomizedQueue<T> implements Iterable<T> {
     private T[] items;
@@ -22,11 +23,13 @@ public class RandomizedQueue<T> implements Iterable<T> {
     }
 
     public void enqueue(T item) {
+        if (item == null) throw new IllegalArgumentException("item must not be null");
         if (size == items.length) resize(2 * size);
         items[size++] = item;
     }
 
     public T dequeue() {
+        assertNoneEmpty(size);
         int index = StdRandom.uniform(size);
         T item = items[index];
         items[index] = items[--size]; // move the last item to target place
@@ -35,8 +38,11 @@ public class RandomizedQueue<T> implements Iterable<T> {
         return item;
     }
 
-    public T sample()                     // return a random item (but do not remove it)
-    {
+    private void assertNoneEmpty(int size) {
+        if(size == 0) throw new NoSuchElementException();
+    }
+
+    public T sample() {
         return items[StdRandom.uniform(size)];
     }
 
@@ -57,7 +63,7 @@ public class RandomizedQueue<T> implements Iterable<T> {
 
     class RandomIterator implements Iterator<T> {
         private T[] randItems;
-        private int i = 0;
+        private int i = size;
 
         RandomIterator() {
             randItems = (T[]) new Object[size];
@@ -69,12 +75,18 @@ public class RandomizedQueue<T> implements Iterable<T> {
 
         @Override
         public boolean hasNext() {
-            return i < size;
+            return i > 0;
         }
 
         @Override
         public T next() {
-            return randItems[i++];
+            assertNoneEmpty(i);
+            return randItems[--i];
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
         }
     }
 
