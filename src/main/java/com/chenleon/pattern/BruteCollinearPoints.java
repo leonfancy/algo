@@ -11,26 +11,36 @@ public class BruteCollinearPoints {
     private ArrayList<LineSegment> segments;
 
     public BruteCollinearPoints(Point[] points) {
+        if (points == null)
+            throw new IllegalArgumentException("Null arguments");
+
         segments = new ArrayList<>();
 
-        Arrays.sort(points);
+        int N = points.length;
+        Point[] auxps = new Point[N];
 
-        for(int i = 0; i < points.length - 1; i++) {
-            if(points[i] == null || points[i+1] == null)
+        for (int i = 0; i < N; i++) {
+            if (points[i] == null)
                 throw new IllegalArgumentException("Null point");
-            if(points[i].compareTo(points[i+1]) == 0)
+            auxps[i] = points[i];
+        }
+
+        Arrays.sort(auxps);
+
+        for (int i = 0; i < N - 1; i++) {
+            if (auxps[i].compareTo(auxps[i + 1]) == 0)
                 throw new IllegalArgumentException("Duplicate points");
         }
 
-        for (int p = 0; p < points.length; p++)
-            for (int q = p + 1; q < points.length; q++)
-                for (int r = q + 1; r < points.length; r++)
-                    for (int s = r + 1; s < points.length; s++) {
-                        double pqSlope = points[p].slopeTo(points[q]);
-                        double prSlope = points[p].slopeTo(points[r]);
-                        double psSlope = points[p].slopeTo(points[s]);
+        for (int p = 0; p < N; p++)
+            for (int q = p + 1; q < N; q++)
+                for (int r = q + 1; r < N; r++)
+                    for (int s = r + 1; s < N; s++) {
+                        double pqSlope = auxps[p].slopeTo(auxps[q]);
+                        double prSlope = auxps[p].slopeTo(auxps[r]);
+                        double psSlope = auxps[p].slopeTo(auxps[s]);
                         if ((pqSlope == prSlope) && (prSlope == psSlope)) {
-                            segments.add(new LineSegment(points[p], points[s]));
+                            segments.add(new LineSegment(auxps[p], auxps[s]));
                         }
                     }
     }

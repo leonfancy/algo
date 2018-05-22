@@ -11,18 +11,20 @@ public class FastCollinearPoints {
     private ArrayList<LineSegment> segments;
 
     public FastCollinearPoints(Point[] points) {
+        if (points == null)
+            throw new IllegalArgumentException("Null arguments");
+
         segments = new ArrayList<>();
         int N = points.length;
-        if (N < 4) return;
-
         Point[] auxps = new Point[N];
 
-        System.arraycopy(points, 0, auxps, 0, N);
+        for (int i = 0; i < points.length; i++) {
+            if (points[i] == null)
+                throw new IllegalArgumentException("Null Point");
+            auxps[i] = points[i];
+        }
 
         for (Point point : points) {
-            if (point == null)
-                throw new IllegalArgumentException("Null Point");
-
             Arrays.sort(auxps, point.slopeOrder());
 
             // duplicate points will be in the first positions
@@ -37,7 +39,7 @@ public class FastCollinearPoints {
                     if (auxps[i].compareTo(auxps[min]) < 0) min = i;
                     else if (auxps[i].compareTo(auxps[max]) > 0) max = i;
                     count++;
-                    if(i == N - 1 && count >= 3 && point.compareTo(auxps[min]) < 0)
+                    if (i == N - 1 && count >= 3 && point.compareTo(auxps[min]) < 0)
                         segments.add(new LineSegment(point, auxps[max]));
                 } else {
                     // Only add line segment with source point as the origin
