@@ -18,11 +18,13 @@ public class FastCollinearPoints {
         int N = points.length;
         Point[] auxps = new Point[N];
 
-        for (int i = 0; i < points.length; i++) {
+        for (int i = 0; i < N; i++) {
             if (points[i] == null)
                 throw new IllegalArgumentException("Null Point");
             auxps[i] = points[i];
         }
+
+        if (N < 2) return;
 
         for (Point point : points) {
             Arrays.sort(auxps, point.slopeOrder());
