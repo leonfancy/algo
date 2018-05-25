@@ -28,6 +28,6 @@ dependencies {
 jar {
     manifest {
 //        attributes 'Main-Class': 'com.chenleon.sort.SortCompare'
-    attributes 'Main-Class': 'com.chenleon.pattern.FastCollinearPoints'
+    attributes 'Main-Class': 'com.chenleon.assignment.eightpuzzle.PuzzleChecker'
     }
 }
