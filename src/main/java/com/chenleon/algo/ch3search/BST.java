@@ -18,12 +18,28 @@ public class BST<Key extends Comparable<Key>, Value> {
         root = put(root, key, value);
     }
 
-    private Node put(Node x, Key key, Value value) {
-        if(x == null) return new Node(key, value);
+    public Value floor(Key key) {
+        Node x = floor(root, key);
+        return x == null ? null : x.value;
+    }
+
+    private Node floor(Node x, Key key) {
+        if (x == null) return null;
 
         int res = key.compareTo(x.key);
-        if(res < 0) x.left = put(x.left, key, value);
-        else if(res > 0) x.right = put(x.right, key, value);
+        if (res == 0) return x;
+        if (res < 0) return floor(x.left, key);
+
+        Node t = floor(x.right, key);
+        return t == null ? x : t;
+    }
+
+    private Node put(Node x, Key key, Value value) {
+        if (x == null) return new Node(key, value);
+
+        int res = key.compareTo(x.key);
+        if (res < 0) x.left = put(x.left, key, value);
+        else if (res > 0) x.right = put(x.right, key, value);
         else x.value = value;
 
         return x;
