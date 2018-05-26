@@ -18,9 +18,40 @@ public class BST<Key extends Comparable<Key>, Value> {
         root = put(root, key, value);
     }
 
+    public Value min() {
+        Node x = root;
+        if (x == null) return null;
+        while (x.left != null) x = x.left;
+        return x.value;
+    }
+
+    public Value max() {
+        Node x = root;
+        if (x == null) return null;
+        while (x.right != null) x = x.right;
+        return x.value;
+    }
+
     public Value floor(Key key) {
         Node x = floor(root, key);
         return x == null ? null : x.value;
+    }
+
+
+    public Value ceil(Key key) {
+        Node x = ceil(root, key);
+        return x == null ? null : x.value;
+    }
+
+    private Node ceil(Node x, Key key) {
+        if (x == null) return null;
+
+        int res = key.compareTo(x.key);
+        if (res == 0) return x;
+        if (res > 0) return ceil(x.right, key);
+
+        Node t = ceil(x.left, key);
+        return t == null ? x : t;
     }
 
     private Node floor(Node x, Key key) {
