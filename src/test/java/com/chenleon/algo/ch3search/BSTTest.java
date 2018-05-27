@@ -52,4 +52,16 @@ public class BSTTest {
     public void testMax() {
         assertEquals(3, bst.max().intValue());
     }
+
+    @Test
+    public void testSize() {
+        assertEquals(8, bst.size());
+    }
+
+    @Test
+    public void testRank() {
+        assertEquals(1, bst.rank("B"));
+        assertEquals(8, bst.rank("Z"));
+        assertEquals(1, bst.rank("C"));
+    }
 }
