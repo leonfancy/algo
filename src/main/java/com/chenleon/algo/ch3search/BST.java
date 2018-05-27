@@ -1,5 +1,8 @@
 package com.chenleon.algo.ch3search;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class BST<Key extends Comparable<Key>, Value> {
     private Node root = null;
 
@@ -49,6 +52,19 @@ public class BST<Key extends Comparable<Key>, Value> {
 
     public int rank(Key key) {
         return rank(root, key);
+    }
+
+    public Iterable<Key> keys() {
+        Queue<Key> q = new LinkedList<>();
+        inorder(root, q);
+        return q;
+    }
+
+    private void inorder(Node x, Queue<Key> q) {
+        if(x == null) return;
+        inorder(x.left, q);
+        q.add(x.key);
+        inorder(x.right, q);
     }
 
     private int rank(Node x, Key key) {
