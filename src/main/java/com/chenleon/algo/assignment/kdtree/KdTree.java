@@ -88,7 +88,7 @@ public class KdTree {
     public Iterable<Point2D> range(RectHV rect) {
         Set<Point2D> points = new TreeSet<>();
         range(points, root, rect, true);
-        return null;
+        return points;
     }
 
     private void range(Set<Point2D> points, Node x, RectHV rect, boolean isX) {
