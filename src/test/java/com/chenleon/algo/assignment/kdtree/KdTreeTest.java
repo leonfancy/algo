@@ -4,6 +4,9 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import org.junit.Test;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import static org.junit.Assert.*;
 
 public class KdTreeTest {
@@ -63,5 +66,18 @@ public class KdTreeTest {
         for (Point2D point : points) {
             assertEquals(new Point2D(0.2, 0.3), point);
         }
+    }
+
+    @Test
+    public void testRangeWithPointsOnRectSide() {
+        KdTree tree = new KdTree();
+        tree.insert(new Point2D(0.7, 0.2));
+        tree.insert(new Point2D(0.7, 0.1));
+
+        RectHV rect = new RectHV(0.1, 0.1, 0.7, 0.3);
+
+        Set<Point2D> points = (Set<Point2D>)(tree.range(rect));
+        assertTrue(points.contains(new Point2D(0.7, 0.2)));
+        assertTrue(points.contains(new Point2D(0.7, 0.1)));
     }
 }

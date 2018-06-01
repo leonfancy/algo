@@ -104,8 +104,8 @@ public class KdTree {
         double rMin = isX ? rect.xmin() : rect.ymin();
         double rMax = isX ? rect.xmax() : rect.ymax();
 
-        if (rMax > xKey) range(points, x.rt, rect, !isX);
-        if (rMin < xKey) range(points, x.lb, rect, !isX);
+        if (rMax >= xKey) range(points, x.rt, rect, !isX);
+        if (rMin <= xKey) range(points, x.lb, rect, !isX);
     }
 
     public Point2D nearest(Point2D p) {
