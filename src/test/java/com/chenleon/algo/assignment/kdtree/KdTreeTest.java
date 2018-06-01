@@ -18,6 +18,14 @@ public class KdTreeTest {
     }
 
     @Test
+    public void testInsertDuplicate() {
+        KdTree tree = new KdTree();
+        tree.insert(new Point2D(0.1, 0.2));
+        tree.insert(new Point2D(0.1, 0.2));
+        assertEquals(1, tree.size());
+    }
+
+    @Test
     public void testDraw() {
         KdTree tree = new KdTree();
         tree.insert(new Point2D(0.7, 0.2));

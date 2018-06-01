@@ -21,12 +21,12 @@ public class PointSET {
     }
 
     public void insert(Point2D p) {
-        if(p == null) throw new IllegalArgumentException();
+        if (p == null) throw new IllegalArgumentException();
         points.add(p);
     }
 
     public boolean contains(Point2D p) {
-        if(p == null) throw new IllegalArgumentException();
+        if (p == null) throw new IllegalArgumentException();
         return points.contains(p);
     }
 
@@ -37,7 +37,7 @@ public class PointSET {
     }
 
     public Iterable<Point2D> range(RectHV rect) {
-        if(rect == null) throw new IllegalArgumentException();
+        if (rect == null) throw new IllegalArgumentException();
         TreeSet<Point2D> containedPoints = new TreeSet<>();
         for (Point2D point : points) {
             if (rect.contains(point)) {
@@ -49,17 +49,17 @@ public class PointSET {
     }
 
     public Point2D nearest(Point2D p) {
-        if(p == null) throw new IllegalArgumentException();
+        if (p == null) throw new IllegalArgumentException();
         Point2D nearestP = null;
         double minDistance = Double.POSITIVE_INFINITY;
         for (Point2D point : points) {
-            double distance = p.distanceTo(point);
+            double distance = p.distanceSquaredTo(point);
             if (distance < minDistance) {
                 nearestP = point;
                 minDistance = distance;
             }
         }
 
-        return  nearestP;
+        return nearestP;
     }
 }
