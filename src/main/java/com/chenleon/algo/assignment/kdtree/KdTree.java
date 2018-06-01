@@ -110,12 +110,14 @@ public class KdTree {
 
     public Point2D nearest(Point2D p) {
         if (p == null) throw new IllegalArgumentException();
-        return nearest(root, p, null, new RectHV(0, 0, 1, 1), true);
+        if (root == null) return null;
+        return nearest(root, p, root.p, new RectHV(0, 0, 1, 1), true);
     }
 
     private Point2D nearest(Node x, Point2D p, Point2D minP, RectHV rect, boolean isX) {
         if (x == null) return minP;
-        if (minP == null || p.distanceSquaredTo(x.p) < p.distanceSquaredTo(minP)) minP = x.p;
+        if (rect.distanceSquaredTo(p) >= minP.distanceSquaredTo(p)) return minP;
+        if (x.p.distanceSquaredTo(p) < minP.distanceSquaredTo(p)) minP = x.p;
 
         RectHV lRect = isX ? new RectHV(rect.xmin(), rect.ymin(), x.p.x(), rect.ymax())
                 : new RectHV(rect.xmin(), rect.ymin(), rect.xmax(), x.p.y());
@@ -127,12 +129,10 @@ public class KdTree {
 
         if (pKey < xKey) {
             minP = nearest(x.lb, p, minP, lRect, !isX);
-            if (p.distanceSquaredTo(minP) > rRect.distanceSquaredTo(p))
-                minP = nearest(x.rt, p, minP, rRect, !isX);
+            minP = nearest(x.rt, p, minP, rRect, !isX);
         } else {
             minP = nearest(x.rt, p, minP, rRect, !isX);
-            if (p.distanceSquaredTo(minP) > rRect.distanceSquaredTo(p))
-                minP = nearest(x.lb, p, minP, lRect, !isX);
+            minP = nearest(x.lb, p, minP, lRect, !isX);
         }
 
         return minP;
