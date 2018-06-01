@@ -24,6 +24,7 @@ public class KdTree {
     }
 
     public void insert(Point2D p) {
+        if(p == null) throw new IllegalArgumentException();
         root = insert(root, p, true);
         size++;
     }
@@ -41,6 +42,7 @@ public class KdTree {
     }
 
     public boolean contains(Point2D p) {
+        if(p == null) throw new IllegalArgumentException();
         return contains(root, p, true);
     }
 
@@ -86,6 +88,7 @@ public class KdTree {
     }
 
     public Iterable<Point2D> range(RectHV rect) {
+        if(rect == null) throw new IllegalArgumentException();
         Set<Point2D> points = new TreeSet<>();
         range(points, root, rect, true);
         return points;
@@ -104,6 +107,7 @@ public class KdTree {
     }
 
     public Point2D nearest(Point2D p) {
+        if(p == null) throw new IllegalArgumentException();
         return nearest(root, p, null, new RectHV(0, 0, 1, 1), true);
     }
 
