@@ -5,7 +5,6 @@ import edu.princeton.cs.algs4.RectHV;
 import org.junit.Test;
 
 import java.util.Set;
-import java.util.TreeSet;
 
 import static org.junit.Assert.*;
 
