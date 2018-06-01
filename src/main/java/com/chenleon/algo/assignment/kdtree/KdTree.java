@@ -61,14 +61,14 @@ public class KdTree {
     }
 
     private void draw(Node x, boolean isX, double xmin, double ymin, double xmax, double ymax) {
-        if(x == null) return;
+        if (x == null) return;
 
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.setPenRadius(0.01);
         x.p.draw();
 
         StdDraw.setPenRadius();
-        if(isX) {
+        if (isX) {
             StdDraw.setPenColor(StdDraw.RED);
             StdDraw.line(x.p.x(), ymin, x.p.x(), ymax);
         } else {
@@ -76,7 +76,7 @@ public class KdTree {
             StdDraw.line(xmin, x.p.y(), xmax, x.p.y());
         }
 
-        if(isX) {
+        if (isX) {
             draw(x.lb, !isX, xmin, ymin, x.p.x(), ymax);
             draw(x.rt, !isX, x.p.x(), ymin, xmax, ymax);
         } else {
@@ -108,35 +108,25 @@ public class KdTree {
     }
 
     private Point2D nearest(Node x, Point2D p, Point2D minP, RectHV rect, boolean isX) {
-        if(x == null) return minP;
-        if(minP == null || p.distanceSquaredTo(x.p) < p.distanceSquaredTo(minP)) minP = x.p;
+        if (x == null) return minP;
+        if (minP == null || p.distanceSquaredTo(x.p) < p.distanceSquaredTo(minP)) minP = x.p;
 
-        if(isX) {
-            RectHV lRect = new RectHV(rect.xmin(), rect.ymin(), x.p.x(), rect.ymax());
-            RectHV rRect = new RectHV(x.p.x(), rect.ymin(), rect.xmax(), rect.ymax());
+        RectHV lRect = isX ? new RectHV(rect.xmin(), rect.ymin(), x.p.x(), rect.ymax())
+                : new RectHV(rect.xmin(), rect.ymin(), rect.xmax(), x.p.y());
+        RectHV rRect = isX ? new RectHV(x.p.x(), rect.ymin(), rect.xmax(), rect.ymax())
+                : new RectHV(rect.xmin(), x.p.y(), rect.xmax(), rect.ymax());
 
-            if(p.x() < x.p.x()) {
-                minP = nearest(x.lb, p, minP, lRect, !isX);
-                if(p.distanceSquaredTo(minP) > rRect.distanceSquaredTo(p))
-                    minP = nearest(x.rt, p, minP, rRect, !isX);
-            } else {
+        double xKey = isX ? x.p.x() : x.p.y();
+        double pKey = isX ? p.x() : p.y();
+
+        if (pKey < xKey) {
+            minP = nearest(x.lb, p, minP, lRect, !isX);
+            if (p.distanceSquaredTo(minP) > rRect.distanceSquaredTo(p))
                 minP = nearest(x.rt, p, minP, rRect, !isX);
-                if(p.distanceSquaredTo(minP) > rRect.distanceSquaredTo(p))
-                    minP = nearest(x.lb, p, minP, lRect, !isX);
-            }
         } else {
-            RectHV lRect = new RectHV(rect.xmin(), rect.ymin(), rect.xmax(), x.p.y());
-            RectHV rRect = new RectHV(rect.xmin(), x.p.y(), rect.xmax(), rect.ymax());
-
-            if(p.y() < x.p.y()) {
+            minP = nearest(x.rt, p, minP, rRect, !isX);
+            if (p.distanceSquaredTo(minP) > rRect.distanceSquaredTo(p))
                 minP = nearest(x.lb, p, minP, lRect, !isX);
-                if(p.distanceSquaredTo(minP) > rRect.distanceSquaredTo(p))
-                    minP = nearest(x.rt, p, minP, rRect, !isX);
-            } else {
-                minP = nearest(x.rt, p, minP, rRect, !isX);
-                if(p.distanceSquaredTo(minP) > rRect.distanceSquaredTo(p))
-                    minP = nearest(x.lb, p, minP, lRect, !isX);
-            }
         }
 
         return minP;
