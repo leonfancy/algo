@@ -2,6 +2,8 @@ package com.chenleon.algo.ch3search;
 
 public class RBTree<Key extends Comparable<Key>, Value> {
     private Node root = null;
+    private static final boolean RED = true;
+    private static final boolean BLACK = false;
 
     public Value get(Key key) {
         Node x = root;
@@ -27,7 +29,7 @@ public class RBTree<Key extends Comparable<Key>, Value> {
     }
 
     private Node put(Node x, Key key, Value value) {
-        if (x == null) return new Node(key, value, 1);
+        if (x == null) return new Node(key, value, 1, RED);
 
         int cmp = key.compareTo(x.key);
         if (cmp < 0) x.left = put(x.left, key, value);
@@ -36,20 +38,58 @@ public class RBTree<Key extends Comparable<Key>, Value> {
 
         x.count = 1 + size(x.left) + size(x.right);
 
+        if(isRed(x.right) && !isRed(x.left)) rotateLeft(x);
+        if(isRed(x.left) && isRed(x.left.left)) rotateRight(x);
+        if(isRed(x.left) && isRed(x.right)) flipColors(x);
+
         return x;
     }
 
+    private boolean isRed(Node x) {
+        if (x == null) return false;
+        return x.color == RED;
+    }
+
+    private Node rotateLeft(Node h) {
+        Node x = h.right;
+        h.right = x.left;
+        x.left = h;
+        x.color = h.color;
+        h.color = RED;
+        x.count = h.count;
+        h.count = 1 + size(h.left) + size(h.right);
+        return x;
+    }
+
+    private Node rotateRight(Node h) {
+        Node x = h.left;
+        h.left = x.right;
+        x.right = h;
+        x.color = h.color;
+        h.color = RED;
+        x.count = h.count;
+        h.count = 1 + size(h.left) + size(h.right);
+        return x;
+    }
+
+    private void flipColors(Node h) {
+        h.color = RED;
+        h.left.color = BLACK;
+        h.right.color = BLACK;
+    }
+
     private class Node {
-        private Node left;
+        private Node left, right;
         private Key key;
         private Value value;
-        private Node right;
         private int count;
+        private boolean color;
 
-        public Node(Key key, Value value, int count) {
+        public Node(Key key, Value value, int count, boolean color) {
             this.key = key;
             this.value = value;
             this.count = count;
+            this.color = color;
         }
     }
 }
