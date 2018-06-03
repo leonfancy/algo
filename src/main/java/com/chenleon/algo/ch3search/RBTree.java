@@ -38,8 +38,8 @@ public class RBTree<Key extends Comparable<Key>, Value> {
 
         x.count = 1 + size(x.left) + size(x.right);
 
-        if(isRed(x.right) && !isRed(x.left)) rotateLeft(x);
-        if(isRed(x.left) && isRed(x.left.left)) rotateRight(x);
+        if(isRed(x.right) && !isRed(x.left)) x = rotateLeft(x);
+        if(isRed(x.left) && isRed(x.left.left)) x = rotateRight(x);
         if(isRed(x.left) && isRed(x.right)) flipColors(x);
 
         return x;
