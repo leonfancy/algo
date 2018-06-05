@@ -1,13 +1,16 @@
 package com.chenleon.algo.ch1basic;
 
-public class QuickUnionUF {
+public class WeightedQuickUnionUF {
     private int count;
     private int[] parent;
+    private int[] sz;
 
-    public QuickUnionUF(int count) {
+    public WeightedQuickUnionUF(int count) {
         parent = new int[count];
+        sz = new int[count];
         for (int i = 0; i < count; i++) {
             parent[i] = i;
+            sz[i] = 1;
         }
 
         this.count = count;
@@ -16,7 +19,13 @@ public class QuickUnionUF {
     public void union(int p, int q) {
         int pid = find(p);
         int qid = find(q);
-        parent[pid] = parent[qid];
+        if (sz[pid] > sz[qid]) {
+            parent[qid] = parent[pid];
+            sz[pid] += sz[qid];
+        } else {
+            parent[pid] = parent[qid];
+            sz[qid] += sz[pid];
+        }
     }
 
     public int find(int p) {
