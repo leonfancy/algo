@@ -1,6 +1,6 @@
 package com.chenleon.algo.ch4graph;
 
-import java.util.Stack;
+import edu.princeton.cs.algs4.Stack;
 
 public class DepthFirstOrder {
     private boolean[] marked;
