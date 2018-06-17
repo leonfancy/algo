@@ -5,55 +5,14 @@ import edu.princeton.cs.algs4.Digraph;
 
 import java.util.LinkedList;
 
+import static java.util.Collections.singletonList;
+
 public class AncestorFinder {
     private int length = -1;
     private int ancestor = -1;
 
     public AncestorFinder(Digraph G, int v, int w) {
-        LinkedList<Integer> q = new LinkedList<>();
-
-        boolean[] vMarked = new boolean[G.V()];
-        int[] vDistTo = new int[G.V()];
-
-        q.add(v);
-        vMarked[v] = true;
-        vDistTo[v] = 0;
-
-        while (!q.isEmpty()) {
-            Integer k = q.remove();
-            for (Integer t : G.adj(k)) {
-                if (!vMarked[t]) {
-                    vMarked[t] = true;
-                    q.add(t);
-                    vDistTo[t] = vDistTo[k] + 1;
-                }
-            }
-        }
-
-        boolean[] wMarked = new boolean[G.V()];
-        int[] wDistTo = new int[G.V()];
-
-        q.add(w);
-        wMarked[w] = true;
-        wDistTo[w] = 0;
-
-        while (!q.isEmpty()) {
-            Integer k = q.remove();
-
-            if (vMarked[k]) {
-                length = vDistTo[k] + wDistTo[k];
-                ancestor = k;
-                break;
-            }
-
-            for (Integer t : G.adj(k)) {
-                if (!wMarked[t]) {
-                    wMarked[t] = true;
-                    q.add(t);
-                    wDistTo[t] = wDistTo[k] + 1;
-                }
-            }
-        }
+        this(G, singletonList(v), singletonList(w));
     }
 
     public AncestorFinder(Digraph G, Iterable<Integer> v, Iterable<Integer> w) {
