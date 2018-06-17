@@ -39,12 +39,12 @@ public class AncestorFinderTest {
         Digraph G = new Digraph(5);
         G.addEdge(2, 1);
         G.addEdge(1, 0);
-        G.addEdge(1, 3);
+        G.addEdge(3, 1);
         G.addEdge(4, 0);
 
-        AncestorFinder finder = new AncestorFinder(G, asList(1, 2), asList(4));
+        AncestorFinder finder = new AncestorFinder(G, asList(2), asList(4, 3));
 
         assertEquals(2, finder.length());
-        assertEquals(0, finder.ancestor());
+        assertEquals(1, finder.ancestor());
     }
 }

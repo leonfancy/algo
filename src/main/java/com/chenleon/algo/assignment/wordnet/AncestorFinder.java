@@ -92,9 +92,10 @@ public class AncestorFinder {
             Integer k = q.remove();
 
             if (vMarked[k]) {
-                length = vDistTo[k] + wDistTo[k];
-                ancestor = k;
-                break;
+                if(length == -1 || (vDistTo[k] + wDistTo[k]) < length) {
+                    length = vDistTo[k] + wDistTo[k];
+                    ancestor = k;
+                }
             }
 
             for (Integer t : G.adj(k)) {
