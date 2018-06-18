@@ -55,11 +55,11 @@ public class AncestorFinder {
             Integer k = q.remove();
 
             if (vMarked[k]) {
-                if(length == -1 || (vDistTo[k] + wDistTo[k]) < length) {
+                if (length == -1 || (vDistTo[k] + wDistTo[k]) < length) {
                     length = vDistTo[k] + wDistTo[k];
                     ancestor = k;
                 }
-                if(vCount == 1 && wCount == 1) break;
+                if (vCount == 1 && wCount == 1) break;
             }
 
             for (Integer t : G.adj(k)) {

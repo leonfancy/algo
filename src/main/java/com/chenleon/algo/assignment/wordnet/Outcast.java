@@ -32,7 +32,7 @@ public class Outcast {
                 di += cache.get(key);
             }
 
-            if(di > dt) {
+            if (di > dt) {
                 dt = di;
                 t = i;
             }

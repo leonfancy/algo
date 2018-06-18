@@ -8,7 +8,7 @@ public class SAP {
 
     // constructor takes a digraph (not necessarily a DAG)
     public SAP(Digraph G) {
-        if(G == null) throw new IllegalArgumentException();
+        if (G == null) throw new IllegalArgumentException();
         this.G = new Digraph(G);
     }
 
@@ -47,7 +47,7 @@ public class SAP {
     // throw an IllegalArgumentException unless {@code 0 <= v < V}
     private void validateVertex(int v) {
         if (v < 0 || v >= G.V())
-            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (G.V()-1));
+            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (G.V() - 1));
     }
 
     // throw an IllegalArgumentException unless {@code 0 <= v < V}
@@ -57,7 +57,7 @@ public class SAP {
         }
         for (int v : vertices) {
             if (v < 0 || v >= G.V()) {
-                throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (G.V()-1));
+                throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (G.V() - 1));
             }
         }
     }
@@ -70,7 +70,7 @@ public class SAP {
         while (!StdIn.isEmpty()) {
             int v = StdIn.readInt();
             int w = StdIn.readInt();
-            int length   = sap.length(v, w);
+            int length = sap.length(v, w);
             int ancestor = sap.ancestor(v, w);
             StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
         }
