@@ -7,8 +7,6 @@ import edu.princeton.cs.algs4.ST;
 
 import java.util.ArrayList;
 
-import static java.lang.Integer.parseInt;
-
 public class WordNet {
     private ST<String, Bag<Integer>> wordsST;
     private ArrayList<String> keys;
@@ -26,7 +24,7 @@ public class WordNet {
         int count = 0;
         while (in.hasNextLine()) {
             String[] a = in.readLine().split(",");
-            int id = parseInt(a[0]);
+            int id = Integer.parseInt(a[0]);
             keys.add(id, a[1]);
 
             String[] words = a[1].split(" ");
@@ -45,10 +43,10 @@ public class WordNet {
         G = new Digraph(count);
         while (in.hasNextLine()) {
             String[] a = in.readLine().split(",");
-            int v = parseInt(a[0]);
+            int v = Integer.parseInt(a[0]);
 
             for (int i = 1; i < a.length; i++)
-                G.addEdge(v, parseInt(a[i]));
+                G.addEdge(v, Integer.parseInt(a[i]));
         }
         sap = new SAP(G);
     }

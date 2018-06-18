@@ -1,18 +1,16 @@
 package com.chenleon.algo.assignment.wordnet;
 
-
 import edu.princeton.cs.algs4.Digraph;
 
+import java.util.Collections;
 import java.util.LinkedList;
-
-import static java.util.Collections.singletonList;
 
 public class AncestorFinder {
     private int length = -1;
     private int ancestor = -1;
 
     public AncestorFinder(Digraph G, int v, int w) {
-        this(G, singletonList(v), singletonList(w));
+        this(G, Collections.singletonList(v), Collections.singletonList(w));
     }
 
     public AncestorFinder(Digraph G, Iterable<Integer> v, Iterable<Integer> w) {
