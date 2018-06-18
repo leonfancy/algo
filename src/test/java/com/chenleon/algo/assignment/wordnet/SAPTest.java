@@ -48,4 +48,18 @@ public class SAPTest {
         assertEquals(4, sap.length(Arrays.asList(13, 23, 24), Arrays.asList(6, 16, 17)));
         assertEquals(3, sap.ancestor(Arrays.asList(13, 23, 24), Arrays.asList(6, 16, 17)));
     }
+
+    @Test
+    public void testSapWithMultiplePathToSameAncestor() {
+        Digraph digraph = new Digraph(6);
+        digraph.addEdge(1, 0);
+        digraph.addEdge(1, 2);
+        digraph.addEdge(2, 3);
+        digraph.addEdge(3, 4);
+        digraph.addEdge(4, 5);
+        digraph.addEdge(5, 0);
+
+        SAP sap = new SAP(digraph);
+        assertEquals(2, sap.length(3, 1));
+    }
 }

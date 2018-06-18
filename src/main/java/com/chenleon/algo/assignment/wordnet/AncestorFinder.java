@@ -22,12 +22,10 @@ public class AncestorFinder {
 
         LinkedList<Integer> q = new LinkedList<>();
 
-        int vCount = 0;
         for (Integer s : v) {
             q.add(s);
             vMarked[s] = true;
             vDistTo[s] = 0;
-            vCount++;
         }
 
         while (!q.isEmpty()) {
@@ -41,12 +39,10 @@ public class AncestorFinder {
             }
         }
 
-        int wCount = 0;
         for (Integer s : w) {
             q.add(s);
             wMarked[s] = true;
             wDistTo[s] = 0;
-            wCount++;
         }
 
         while (!q.isEmpty()) {
@@ -57,7 +53,6 @@ public class AncestorFinder {
                     length = vDistTo[k] + wDistTo[k];
                     ancestor = k;
                 }
-                if (vCount == 1 && wCount == 1) break;
             }
 
             for (Integer t : G.adj(k)) {
