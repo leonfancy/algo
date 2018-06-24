@@ -27,6 +27,6 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.chenleon.algo.assignment.eightpuzzle.PuzzleChecker'
+        attributes 'Main-Class': 'com.chenleon.algo.assignment.wordnet.Outcast'
     }
 }
