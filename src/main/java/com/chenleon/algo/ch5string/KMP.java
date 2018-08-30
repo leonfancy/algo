@@ -8,12 +8,11 @@ public class KMP {
         int i = 0, j = 0;
 
         while (i < tlen && j < plen) {
-            if (text.charAt(i) == pattern.charAt(j)) {
+            if (j == -1 || text.charAt(i) == pattern.charAt(j)) {
                 i++;
                 j++;
             } else {
-                if (next[j] == -1) i++;
-                else j = next[j];
+                j = next[j];
             }
         }
 
